@@ -6,24 +6,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.io.Serializable;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "user")
-public class User implements Serializable {
+public class UserGroup implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id", updatable = false, nullable = false)
+	@Column(name = "usergroup_id", updatable = false, nullable = false)
 	private Long id;
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "user_username", nullable = false)
-	private String userName;
+	@Column(name = "usergroup_name", nullable = false)
+	private String name;
 
-	@Column(name = "user_password", nullable = false)
-	private String password;
-	
 	public Long getId() {
 		return id;
 	}
@@ -37,10 +32,10 @@ public class User implements Serializable {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof User)) {
+		if (!(obj instanceof UserGroup)) {
 			return false;
 		}
-		User other = (User) obj;
+		UserGroup other = (UserGroup) obj;
 		if (id != null) {
 			if (!id.equals(other.id)) {
 				return false;
@@ -57,29 +52,19 @@ public class User implements Serializable {
 		return result;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getName() {
+		return name;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override
 	public String toString() {
 		String result = getClass().getSimpleName() + " ";
-		if (userName != null && !userName.trim().isEmpty())
-			result += "userName: " + userName;
-		if (password != null && !password.trim().isEmpty())
-			result += ", password: " + password;
+		if (name != null && !name.trim().isEmpty())
+			result += "name: " + name;
 		return result;
 	}
 }
