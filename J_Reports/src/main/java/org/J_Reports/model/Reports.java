@@ -9,8 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "roles")
-public class UserRole implements Serializable {
+@Table(name = "reports")
+public class Reports implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,11 +18,11 @@ public class UserRole implements Serializable {
 	private Long id;
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "user_ID")
-	private int userID;
+	@Column(name = "report_ID")
+	private int reportID;
 
-	@Column(name = "userType_ID")
-	private int userTypeID;
+	@Column(name = "connection_ID")
+	private int datasourceID;
 
 	@Column(name = "usergroup_ID")
 	private int userGroupID;
@@ -40,10 +40,10 @@ public class UserRole implements Serializable {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof UserRole)) {
+		if (!(obj instanceof Reports)) {
 			return false;
 		}
-		UserRole other = (UserRole) obj;
+		Reports other = (Reports) obj;
 		if (id != null) {
 			if (!id.equals(other.id)) {
 				return false;
@@ -60,36 +60,36 @@ public class UserRole implements Serializable {
 		return result;
 	}
 
-	public int getUserID() {
-		return userID;
+	public int getReportID() {
+		return reportID;
 	}
 
-	public void setUserID(int userID) {
-		this.userID = userID;
+	public void setReportID(int reportID) {
+		this.reportID = reportID;
 	}
 
-	public int getUserTypeID() {
-		return userTypeID;
+	public int getDatasourceID() {
+		return datasourceID;
 	}
 
-	public void setUserTypeID(int usertype_ID) {
-		this.userTypeID = usertype_ID;
+	public void setDatasourceID(int datasourceID) {
+		this.datasourceID = datasourceID;
 	}
 
 	public int getUserGroupID() {
 		return userGroupID;
 	}
 
-	public void setUserGroupID(int usergroup_ID) {
-		this.userGroupID = usergroup_ID;
+	public void setUserGroupID(int userGroupID) {
+		this.userGroupID = userGroupID;
 	}
 
 	@Override
 	public String toString() {
 		String result = getClass().getSimpleName() + " ";
-		result += "userID: " + userID;
-		result += ", usertype_ID: " + userTypeID;
-		result += ", usergroup_ID: " + userGroupID;
+		result += "reportID: " + reportID;
+		result += ", datasourceID: " + datasourceID;
+		result += ", userGroupID: " + userGroupID;
 		return result;
 	}
 }
