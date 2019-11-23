@@ -27,11 +27,11 @@ public class User implements Serializable {
 	@Column(name = "Password_salt")
 	private String passwordSalt;
 
-	@Column(name = "userType_ID")
-	private int userType;
-
 	@Column(name = "Email")
 	private String email;
+
+	@Column(name = "usertype_ID")
+	private int userType;
 
 	@Column
 	public Long getId() {
@@ -91,20 +91,20 @@ public class User implements Serializable {
 		this.passwordSalt = passwordSalt;
 	}
 
-	public int getUserType() {
-		return userType;
-	}
-
-	public void setUserType(int userType) {
-		this.userType = userType;
-	}
-
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public int getUserType() {
+		return userType;
+	}
+
+	public void setUserType(int userType) {
+		this.userType = userType;
 	}
 
 	@Override
@@ -116,9 +116,9 @@ public class User implements Serializable {
 			result += ", password: " + password;
 		if (passwordSalt != null && !passwordSalt.trim().isEmpty())
 			result += ", passwordSalt: " + passwordSalt;
-		result += ", userType: " + userType;
 		if (email != null && !email.trim().isEmpty())
 			result += ", email: " + email;
+		result += ", userType: " + userType;
 		return result;
 	}
 }

@@ -6,18 +6,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.io.Serializable;
+import javax.persistence.Table;
 
 @Entity
-public class UserGroup implements Serializable {
+@Table(name = "roles")
+public class UserRole implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", updatable = false, nullable = false)
+	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
 	private static final long serialVersionUID = 1L;
-
-	@Column(name = "Name", nullable = false)
-	private String name;
 
 	public Long getId() {
 		return id;
@@ -32,10 +31,10 @@ public class UserGroup implements Serializable {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof UserGroup)) {
+		if (!(obj instanceof UserRole)) {
 			return false;
 		}
-		UserGroup other = (UserGroup) obj;
+		UserRole other = (UserRole) obj;
 		if (id != null) {
 			if (!id.equals(other.id)) {
 				return false;
@@ -49,22 +48,6 @@ public class UserGroup implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String toString() {
-		String result = getClass().getSimpleName() + " ";
-		if (name != null && !name.trim().isEmpty())
-			result += "name: " + name;
 		return result;
 	}
 }

@@ -9,26 +9,17 @@ import java.io.Serializable;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "db_connection")
-public class Datasource implements Serializable {
-	private static final long serialVersionUID = 1L;
+@Table(name = "usertype")
+public class UserType implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", updatable = false, nullable = false)
 	private Long id;
+	private static final long serialVersionUID = 1L;
 
-	@Column(name = "Name", nullable = true)
+	@Column(name = "Name")
 	private String name;
-
-	@Column(name = "Username", nullable = true)
-	private String userName;
-
-	@Column(name = "Password", nullable = true)
-	private String password;
-
-	@Column(name = "URL")
-	private String path;
 
 	public Long getId() {
 		return id;
@@ -43,10 +34,10 @@ public class Datasource implements Serializable {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof Datasource)) {
+		if (!(obj instanceof UserType)) {
 			return false;
 		}
-		Datasource other = (Datasource) obj;
+		UserType other = (UserType) obj;
 		if (id != null) {
 			if (!id.equals(other.id)) {
 				return false;
@@ -71,41 +62,11 @@ public class Datasource implements Serializable {
 		this.name = name;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getPath() {
-		return path;
-	}
-
-	public void setPath(String path) {
-		this.path = path;
-	}
-
 	@Override
 	public String toString() {
 		String result = getClass().getSimpleName() + " ";
 		if (name != null && !name.trim().isEmpty())
 			result += "name: " + name;
-		if (userName != null && !userName.trim().isEmpty())
-			result += ", userName: " + userName;
-		if (password != null && !password.trim().isEmpty())
-			result += ", password: " + password;
-		if (path != null && !path.trim().isEmpty())
-			result += ", path: " + path;
 		return result;
 	}
 }
