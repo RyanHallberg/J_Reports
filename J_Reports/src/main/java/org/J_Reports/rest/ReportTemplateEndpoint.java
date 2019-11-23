@@ -19,6 +19,8 @@ import javax.ws.rs.core.Response;
 import org.J_Reports.model.Datasource;
 
 import requestobject.ReportTemplateRequest;
+import responseobject.ColumnMetadata;
+import responseobject.ReportMetadata;
 
 @Path("/reports/template")
 public class ReportTemplateEndpoint {
@@ -61,6 +63,7 @@ public class ReportTemplateEndpoint {
 		}
 		
 		// query the database
+		ReportMetadata reportMetadata = null;
 		try
 		{
 			Statement st = con.createStatement();
@@ -68,13 +71,25 @@ public class ReportTemplateEndpoint {
 			ResultSetMetaData rsmd = rs.getMetaData();
 			
 			// set the metadata
+			reportMetadata = new ReportMetadata();
+			reportMetadata.setNumColumns(rsmd.getColumnCount());
+			reportMetadata.setTitle(rsmd.getTableName(1));
 			
-			
+			for (int i = 1; i<= reportMetadata.getNumColumns(); i++) {
+				ColumnMetadata columnMetadata = new ColumnMetadata();
+				columnMetadata.setTableColumnName(rsmd.getColumnName(i));
+				columnMetadata.setDataType(rsmd.getColumnTypeName(i));
+				columnMetadata.setDisplayColumnName(rsmd.getColumnName(i));
+				columnMetadata.setModifiable(false);
+				
+				// add the columnMetadata to the ReportMetadata
+				reportMetadata.addColumn(columnMetadata);
+			}
 			
 		} catch(Exception e) {
 			
 		}
 	
-		return Response.ok(entity).build();
+		return Response.ok(reportMetadata).build();
 	}
 }
