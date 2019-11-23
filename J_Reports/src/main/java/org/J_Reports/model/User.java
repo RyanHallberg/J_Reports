@@ -14,16 +14,26 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id", updatable = false, nullable = false)
+	@Column(name = "ID", updatable = false, nullable = false)
 	private Long id;
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "user_username", nullable = false)
+	@Column(name = "Username", nullable = false)
 	private String userName;
 
-	@Column(name = "user_password", nullable = false)
+	@Column(name = "Password", nullable = false)
 	private String password;
-	
+
+	@Column(name = "Password_salt")
+	private String passwordSalt;
+
+	@Column(name = "userType_ID")
+	private int userType;
+
+	@Column(name = "Email")
+	private String email;
+
+	@Column
 	public Long getId() {
 		return id;
 	}
@@ -73,6 +83,30 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
+	public String getPasswordSalt() {
+		return passwordSalt;
+	}
+
+	public void setPasswordSalt(String passwordSalt) {
+		this.passwordSalt = passwordSalt;
+	}
+
+	public int getUserType() {
+		return userType;
+	}
+
+	public void setUserType(int userType) {
+		this.userType = userType;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public String toString() {
 		String result = getClass().getSimpleName() + " ";
@@ -80,6 +114,11 @@ public class User implements Serializable {
 			result += "userName: " + userName;
 		if (password != null && !password.trim().isEmpty())
 			result += ", password: " + password;
+		if (passwordSalt != null && !passwordSalt.trim().isEmpty())
+			result += ", passwordSalt: " + passwordSalt;
+		result += ", userType: " + userType;
+		if (email != null && !email.trim().isEmpty())
+			result += ", email: " + email;
 		return result;
 	}
 }
