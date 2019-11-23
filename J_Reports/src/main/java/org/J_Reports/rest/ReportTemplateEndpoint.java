@@ -86,10 +86,46 @@ public class ReportTemplateEndpoint {
 				reportMetadata.addColumn(columnMetadata);
 			}
 			
+			// get the records
+			
 		} catch(Exception e) {
 			
 		}
 	
 		return Response.ok(reportMetadata).build();
 	}
+	
+	@POST
+	@Path("/runnable")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response createReportRunnable() {
+		return null;
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
