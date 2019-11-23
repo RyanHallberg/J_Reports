@@ -1,6 +1,6 @@
 package requestobject;
 
-public class ReportTemplateRequest {
+public class ReportTemplate {
 
 	private Long datasourceID;
 	private String query;

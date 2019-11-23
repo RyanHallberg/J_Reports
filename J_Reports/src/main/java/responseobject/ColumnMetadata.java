@@ -30,6 +30,4 @@ public class ColumnMetadata {
 	public void setModifiable(Boolean modifiable) {
 		this.modifiable = modifiable;
 	}
-
-	
 }

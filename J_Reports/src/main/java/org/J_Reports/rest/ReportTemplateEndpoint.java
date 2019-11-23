@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 
 import org.J_Reports.model.Datasource;
 
-import requestobject.ReportTemplateRequest;
+import requestobject.ReportTemplate;
 import responseobject.ColumnMetadata;
 import responseobject.ReportMetadata;
 
@@ -30,13 +30,13 @@ public class ReportTemplateEndpoint {
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response createReportTemplate(ReportTemplateRequest reportTemplateRequest) {
+	public Response createReportTemplate(ReportTemplate reportTemplate) {
 		// get the data source
 		TypedQuery<Datasource> findByIdQuery = em
 				.createQuery(
 						"SELECT DISTINCT d FROM Datasource d WHERE d.id = :entityId ORDER BY d.id",
 						Datasource.class);
-		findByIdQuery.setParameter("entityId", reportTemplateRequest.getDatasourceID());
+		findByIdQuery.setParameter("entityId", reportTemplate.getDatasourceID());
 		Datasource entity;
 		try {
 			entity = findByIdQuery.getSingleResult();
@@ -67,7 +67,7 @@ public class ReportTemplateEndpoint {
 		try
 		{
 			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery(reportTemplateRequest.getQuery());
+			ResultSet rs = st.executeQuery(reportTemplate.getQuery());
 			ResultSetMetaData rsmd = rs.getMetaData();
 			
 			// set the metadata
