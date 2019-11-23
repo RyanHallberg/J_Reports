@@ -87,6 +87,7 @@ public class Report implements Serializable {
 	}
 
 	public void setReformattedQuery(String reformattedQuery) {
+		// use the formatted query algorithm here
 		this.reformattedQuery = reformattedQuery;
 	}
 

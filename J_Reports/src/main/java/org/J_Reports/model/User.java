@@ -80,6 +80,7 @@ public class User implements Serializable {
 	}
 
 	public void setPassword(String password) {
+		// use the password hash algorithm here
 		this.password = password;
 	}
 
@@ -88,6 +89,7 @@ public class User implements Serializable {
 	}
 
 	public void setPasswordSalt(String passwordSalt) {
+		// set the password salt here
 		this.passwordSalt = passwordSalt;
 	}
 
