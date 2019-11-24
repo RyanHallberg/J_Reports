@@ -20,6 +20,12 @@
 	    <version>4.0.4</version>
 	</dependency>
 	
+	 <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20190722</version>
+        </dependency>
+	
 	<!-- https://mvnrepository.com/artifact/com.thetransactioncompany/cors-filter -->
 	<dependency>
 	    <groupId>com.thetransactioncompany</groupId>
