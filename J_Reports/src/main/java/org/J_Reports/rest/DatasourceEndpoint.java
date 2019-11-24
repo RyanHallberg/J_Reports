@@ -22,6 +22,8 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 import org.J_Reports.model.Datasource;
 
+import utilities.TestDBConn;
+
 /**
  * 
  */
@@ -34,10 +36,17 @@ public class DatasourceEndpoint {
 	@POST
 	@Consumes("application/json")
 	public Response create(Datasource entity) {
-		em.persist(entity);
+      
+      boolean good = TestDBConn.checkDBConnection(entity);
+
+      if(good){
+        em.persist(entity);
 		return Response.created(
 				UriBuilder.fromResource(DatasourceEndpoint.class)
-						.path(String.valueOf(entity.getId())).build()).build();
+                  .path(String.valueOf(entity.getId())).build()).build();
+      }else{
+         return Response.status(Status.NOT_FOUND).build();
+      }
 	}
 
 	@DELETE

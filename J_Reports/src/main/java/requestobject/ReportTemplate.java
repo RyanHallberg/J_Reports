@@ -1,5 +1,7 @@
 package requestobject;
 
+import utilities.QueryReformatter;
+
 public class ReportTemplate {
 	private Long datasourceID;
 	private String query;
@@ -14,7 +16,7 @@ public class ReportTemplate {
 		return query;
 	}
 	public void setQuery(String query) {
-		this.query = query;
+		this.query = QueryReformatter.reformat(query);
 	}
 	
 	
