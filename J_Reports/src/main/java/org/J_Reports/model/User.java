@@ -8,9 +8,14 @@ import javax.persistence.Entity;
 import java.io.Serializable;
 import javax.persistence.Table;
 
+import utilities.PasswordHasher;
+
+
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
+
+   public static final String ALGORITHM = "SHA-256";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,17 +85,21 @@ public class User implements Serializable {
 	}
 
 	public void setPassword(String password) {
-		// use the password hash algorithm here
-		this.password = password;
+      setPasswordSalt();
+      // use the password hash algorithm here
+      password += getPasswordSalt();
+      this.password = PasswordHasher.getCryptoHash(password, ALGORITHM);
 	}
 
 	public String getPasswordSalt() {
 		return passwordSalt;
 	}
 
-	public void setPasswordSalt(String passwordSalt) {
-		// set the password salt here
-		this.passwordSalt = passwordSalt;
+	public void setPasswordSalt() {
+      // set the password salt here
+      String passwordSalt;
+      passwordSalt = PasswordHasher.createSalt();
+	  this.passwordSalt = passwordSalt;
 	}
 
 	public String getEmail() {
@@ -123,4 +132,6 @@ public class User implements Serializable {
 		result += ", userType: " + userType;
 		return result;
 	}
+	
+
 }

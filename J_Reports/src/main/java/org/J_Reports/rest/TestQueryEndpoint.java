@@ -3,7 +3,6 @@ package org.J_Reports.rest;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 
 import javax.persistence.EntityManager;
@@ -20,8 +19,6 @@ import org.J_Reports.model.Datasource;
 import org.json.JSONObject;
 
 import requestobject.ReportTemplate;
-
-import responseobject.ReportMetadata;
 import responseobject.ResultSetConverter;
 
 @Path("/reports/template")
@@ -71,6 +68,7 @@ public class TestQueryEndpoint {
 		try
 		{
 			Statement st = con.createStatement();
+			// check if query was valid
 			ResultSet rs = st.executeQuery(reportTemplate.getQuery());
 			
 			master = ResultSetConverter.convert(rs);
