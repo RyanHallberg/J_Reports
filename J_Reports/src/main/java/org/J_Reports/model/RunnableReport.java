@@ -11,8 +11,7 @@ import javax.persistence.Entity;
 import java.io.Serializable;
 
 @Entity
-public class RunnableReport extends ReportMetadata implements Serializable {
-
+public class RunnableReport implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", updatable = false, nullable = false)
@@ -20,10 +19,16 @@ public class RunnableReport extends ReportMetadata implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column
-	private Long userRoleID;
+	private Long userGroupID;
 
 	@Column
 	private Long datasourceID;
+
+	@Column
+	private String query;
+
+	@Column
+	private ReportMetadata reportMetadata;
 
 	public Long getId() {
 		return id;
@@ -58,12 +63,12 @@ public class RunnableReport extends ReportMetadata implements Serializable {
 		return result;
 	}
 
-	public Long getUserRoleID() {
-		return userRoleID;
+	public Long getUserGroupID() {
+		return userGroupID;
 	}
 
-	public void setUserRoleID(Long userRoleID) {
-		this.userRoleID = userRoleID;
+	public void setUserGroupID(Long userRoleID) {
+		this.userGroupID = userRoleID;
 	}
 
 	public Long getDatasourceID() {
@@ -74,13 +79,31 @@ public class RunnableReport extends ReportMetadata implements Serializable {
 		this.datasourceID = datasourceID;
 	}
 
+	public String getQuery() {
+		return query;
+	}
+
+	public void setQuery(String query) {
+		this.query = query;
+	}
+
+	public ReportMetadata getReportMetadata() {
+		return reportMetadata;
+	}
+
+	public void setReportMetadata(ReportMetadata reportMetadata) {
+		this.reportMetadata = reportMetadata;
+	}
+
 	@Override
 	public String toString() {
 		String result = getClass().getSimpleName() + " ";
-		if (userRoleID != null)
-			result += "userRoleID: " + userRoleID;
+		if (userGroupID != null)
+			result += "userGroupID: " + userGroupID;
 		if (datasourceID != null)
 			result += ", datasourceID: " + datasourceID;
+		if (query != null && !query.trim().isEmpty())
+			result += ", query: " + query;
 		return result;
 	}
 }
