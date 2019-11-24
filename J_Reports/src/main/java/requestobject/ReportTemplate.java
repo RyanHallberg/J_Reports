@@ -3,7 +3,6 @@ package requestobject;
 import utilities.QueryReformatter;
 
 public class ReportTemplate {
-
 	private Long datasourceID;
 	private String query;
 	
