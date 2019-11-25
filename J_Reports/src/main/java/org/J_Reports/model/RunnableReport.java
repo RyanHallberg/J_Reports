@@ -16,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 
 import java.io.Serializable;
+import java.sql.Blob;
 
 @Entity
 @Table(name = "runnable_report")
@@ -37,7 +38,6 @@ public class RunnableReport implements Serializable {
 
 	@Column(name = "report_metadata")
 	@Lob
-	@Basic(fetch = FetchType.LAZY)
 	private ReportMetadata reportMetadata;
 
 	

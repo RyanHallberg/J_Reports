@@ -1,12 +1,15 @@
 package responseobject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
 
 
-public class ReportMetadata {	
+public class ReportMetadata implements Serializable {	
+
+	private static final long serialVersionUID = 1L;
 	private String title;
 	private List<ColumnMetadata> columnMetadata = new ArrayList<>();
 	private int numColumns;

@@ -33,13 +33,12 @@ public class RunnableReportEndpoint {
 
 	@POST
 	@Consumes("application/json")
+	@Produces("application/json")
 	public Response create(RunnableReport entity) {
-//		em.persist(entity);
-//		return Response.created(
-//				UriBuilder.fromResource(RunnableReportEndpoint.class)
-//						.path(String.valueOf(entity.getId())).build()).build();
-		
-		return Response.ok(entity).build();
+		em.persist(entity);
+		return Response.created(
+				UriBuilder.fromResource(RunnableReportEndpoint.class)
+						.path(String.valueOf(entity.getId())).build()).build();
 	}
 
 	@DELETE

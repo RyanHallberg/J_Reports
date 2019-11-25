@@ -1,6 +1,10 @@
 package responseobject;
 
-public class ColumnMetadata {
+import java.io.Serializable;
+
+public class ColumnMetadata implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private int colNum;
 	private String colName;
 	private String colType;
