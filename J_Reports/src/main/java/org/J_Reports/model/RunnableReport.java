@@ -1,16 +1,24 @@
 package org.J_Reports.model;
 
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
+
+import org.json.JSONObject;
 
 import responseobject.ReportMetadata;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+
 import java.io.Serializable;
 
 @Entity
+@Table(name = "runnable_report")
 public class RunnableReport implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,17 +26,28 @@ public class RunnableReport implements Serializable {
 	private Long id;
 	private static final long serialVersionUID = 1L;
 
-	@Column
+	@Column(name = "user_group_id")
 	private Long userGroupID;
 
-	@Column
+	@Column(name = "datasource_id")
 	private Long datasourceID;
 
-	@Column
+	@Column(name = "query")
 	private String query;
 
-	@Column
+	@Column(name = "report_metadata")
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
 	private ReportMetadata reportMetadata;
+
+	
+	public ReportMetadata getReportMetadata() {
+		return reportMetadata;
+	}
+
+	public void setReportMetadata(ReportMetadata reportMetadata) {
+		this.reportMetadata = reportMetadata;
+	}
 
 	public Long getId() {
 		return id;
@@ -85,14 +104,6 @@ public class RunnableReport implements Serializable {
 
 	public void setQuery(String query) {
 		this.query = query;
-	}
-
-	public ReportMetadata getReportMetadata() {
-		return reportMetadata;
-	}
-
-	public void setReportMetadata(ReportMetadata reportMetadata) {
-		this.reportMetadata = reportMetadata;
 	}
 
 	@Override

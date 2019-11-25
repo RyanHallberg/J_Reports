@@ -3,6 +3,9 @@ package responseobject;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+
+
 public class ReportMetadata {	
 	private String title;
 	private List<ColumnMetadata> columnMetadata = new ArrayList<>();

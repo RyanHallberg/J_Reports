@@ -1,33 +1,41 @@
 package responseobject;
 
 public class ColumnMetadata {
-	private String tableColumnName;
-	private String dataType;
-	private String displayColumnName;
-	private Boolean modifiable;
+	private int colNum;
+	private String colName;
+	private String colType;
+	private String colAlias;
+	private Boolean colMod;
 	
-	public String getTableColumnName() {
-		return tableColumnName;
+	public int getColNum() {
+		return colNum;
 	}
-	public void setTableColumnName(String tableColumnName) {
-		this.tableColumnName = tableColumnName;
+	public void setColNum(int colNum) {
+		this.colNum = colNum;
 	}
-	public String getDataType() {
-		return dataType;
+	public String getColName() {
+		return colName;
 	}
-	public void setDataType(String dataType) {
-		this.dataType = dataType;
+	public void setColName(String colName) {
+		this.colName = colName;
 	}
-	public String getDisplayColumnName() {
-		return displayColumnName;
+	public String getColType() {
+		return colType;
 	}
-	public void setDisplayColumnName(String displayColumnName) {
-		this.displayColumnName = displayColumnName;
+	public void setColType(String colType) {
+		this.colType = colType;
 	}
-	public Boolean getModifiable() {
-		return modifiable;
+	public String getColAlias() {
+		return colAlias;
 	}
-	public void setModifiable(Boolean modifiable) {
-		this.modifiable = modifiable;
+	public void setColAlias(String colAlias) {
+		this.colAlias = colAlias;
 	}
+	public Boolean getColMod() {
+		return colMod;
+	}
+	public void setColMod(Boolean colMod) {
+		this.colMod = colMod;
+	}
+	
 }
