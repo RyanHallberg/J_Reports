@@ -37,6 +37,7 @@ public class User implements Serializable {
 
 	@Column(name = "usertype_ID")
 	private int userType;
+	
 
 	@Column
 	public Long getId() {
