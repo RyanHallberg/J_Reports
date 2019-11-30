@@ -26,15 +26,12 @@ public class User implements Serializable {
 	@Column(name = "Username", nullable = false)
 	private String username;
 
-	// ignored on response
 	@Column(name = "Password", nullable = false)
 	private String password;
 
-	// ignored on response
 	@Column(name = "Password_salt")
 	private String passwordSalt;
 
-	// ignored on response
 	@Column(name = "Email")
 	private String email;
 
@@ -76,14 +73,13 @@ public class User implements Serializable {
 		return result;
 	}
 
-	public String getUserName() {
+	public String getUsername() {
 		return username;
 	}
 
-	public void setUserName(String username) {
+	public void setUsername(String username) {
 		this.username = username;
 	}
-
 	
 	public String getPassword() {
 		return password;
@@ -118,8 +114,6 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		String result = getClass().getSimpleName() + " ";
-		if (username != null && !username.trim().isEmpty())
-			result += "userName: " + username;
 		if (password != null && !password.trim().isEmpty())
 			result += ", password: " + password;
 		if (passwordSalt != null && !passwordSalt.trim().isEmpty())
