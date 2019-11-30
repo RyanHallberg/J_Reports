@@ -23,7 +23,7 @@ public class User implements Serializable {
 	private Long id;
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "Username")
+	@Column(name = "Username", nullable = false)
 	private String username;
 
 	// ignored on response
@@ -77,7 +77,7 @@ public class User implements Serializable {
 	}
 
 	public String getUserName() {
-		return this.username;
+		return username;
 	}
 
 	public void setUserName(String username) {
