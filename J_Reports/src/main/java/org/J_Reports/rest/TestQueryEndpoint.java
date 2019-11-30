@@ -53,9 +53,9 @@ public class TestQueryEndpoint {
 		{
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver"); // load the MS Access driver
 			
-			String url = "jdbc:ucanaccess://" + entity.getPath(); // gets the connection instance
+			String url = "jdbc:ucanaccess://" + entity.getConnection_string(); // gets the connection instance
 			
-			con = DriverManager.getConnection(url + entity.getUserName() + entity.getPassword());
+			con = DriverManager.getConnection(url + entity.getUsername() + entity.getPassword());
 		}
 		catch (Exception e)
 		{

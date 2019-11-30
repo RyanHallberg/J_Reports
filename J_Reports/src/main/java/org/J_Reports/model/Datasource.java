@@ -22,13 +22,13 @@ public class Datasource implements Serializable {
 	private String name;
 
 	@Column(name = "Username", nullable = true)
-	private String userName;
+	private String username;
 
 	@Column(name = "Password", nullable = true)
 	private String password;
 
 	@Column(name = "URL")
-	private String path;
+	private String connection_string;
 
 	public Long getId() {
 		return id;
@@ -71,12 +71,12 @@ public class Datasource implements Serializable {
 		this.name = name;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String userName) {
+		this.username = userName;
 	}
 
 	public String getPassword() {
@@ -87,12 +87,12 @@ public class Datasource implements Serializable {
 		this.password = password;
 	}
 
-	public String getPath() {
-		return path;
+	public String getConnection_string() {
+		return connection_string;
 	}
 
-	public void setPath(String path) {
-		this.path = path;
+	public void setConnection_string(String path) {
+		this.connection_string = path;
 	}
 
 	@Override
@@ -100,12 +100,12 @@ public class Datasource implements Serializable {
 		String result = getClass().getSimpleName() + " ";
 		if (name != null && !name.trim().isEmpty())
 			result += "name: " + name;
-		if (userName != null && !userName.trim().isEmpty())
-			result += ", userName: " + userName;
+		if (username != null && !username.trim().isEmpty())
+			result += ", userName: " + username;
 		if (password != null && !password.trim().isEmpty())
 			result += ", password: " + password;
-		if (path != null && !path.trim().isEmpty())
-			result += ", path: " + path;
+		if (connection_string != null && !connection_string.trim().isEmpty())
+			result += ", path: " + connection_string;
 		return result;
 	}
 }

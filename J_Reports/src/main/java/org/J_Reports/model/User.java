@@ -23,20 +23,23 @@ public class User implements Serializable {
 	private Long id;
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "Username", nullable = false)
-	private String userName;
+	@Column(name = "Username")
+	private String username;
 
+	// ignored on response
 	@Column(name = "Password", nullable = false)
 	private String password;
 
+	// ignored on response
 	@Column(name = "Password_salt")
 	private String passwordSalt;
 
+	// ignored on response
 	@Column(name = "Email")
 	private String email;
 
 	@Column(name = "usertype_ID")
-	private int userType;
+	private int user_type_id;
 	
 
 	@Column
@@ -74,17 +77,18 @@ public class User implements Serializable {
 	}
 
 	public String getUserName() {
-		return userName;
+		return this.username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserName(String username) {
+		this.username = username;
 	}
 
+	
 	public String getPassword() {
 		return password;
 	}
-
+	
 	public void setPassword(String password) {
       setPasswordSalt();
       // use the password hash algorithm here
@@ -111,27 +115,26 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
-	public int getUserType() {
-		return userType;
-	}
-
-	public void setUserType(int userType) {
-		this.userType = userType;
-	}
-
 	@Override
 	public String toString() {
 		String result = getClass().getSimpleName() + " ";
-		if (userName != null && !userName.trim().isEmpty())
-			result += "userName: " + userName;
+		if (username != null && !username.trim().isEmpty())
+			result += "userName: " + username;
 		if (password != null && !password.trim().isEmpty())
 			result += ", password: " + password;
 		if (passwordSalt != null && !passwordSalt.trim().isEmpty())
 			result += ", passwordSalt: " + passwordSalt;
 		if (email != null && !email.trim().isEmpty())
 			result += ", email: " + email;
-		result += ", userType: " + userType;
 		return result;
+	}
+
+	public int getUser_type_id() {
+		return user_type_id;
+	}
+
+	public void setUser_type_id(int user_type_id) {
+		this.user_type_id = user_type_id;
 	}
 	
 

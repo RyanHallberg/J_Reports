@@ -1,5 +1,6 @@
 package org.J_Reports.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -21,6 +22,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 import org.J_Reports.model.User;
+
+import responseobject.UserResponse;
+
 
 /**
  * 
@@ -69,12 +73,16 @@ public class UserEndpoint {
 		if (entity == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		return Response.ok(entity).build();
+		
+		// set user response object
+		UserResponse userResponse = new UserResponse(entity);
+		
+		return Response.ok(userResponse).build();
 	}
 
 	@GET
 	@Produces("application/json")
-	public List<User> listAll(@QueryParam("start") Integer startPosition,
+	public List<UserResponse> listAll(@QueryParam("start") Integer startPosition,
 			@QueryParam("max") Integer maxResult) {
 		TypedQuery<User> findAllQuery = em.createQuery(
 				"SELECT DISTINCT u FROM User u ORDER BY u.id", User.class);
@@ -85,7 +93,15 @@ public class UserEndpoint {
 			findAllQuery.setMaxResults(maxResult);
 		}
 		final List<User> results = findAllQuery.getResultList();
-		return results;
+		
+		// set the user response
+		List<UserResponse> userResponse = new ArrayList<UserResponse>();
+		for (User user : results) {
+			userResponse.add(new UserResponse(user));
+		}
+		
+		return userResponse;
+		//return results;
 	}
 
 	@PUT

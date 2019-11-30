@@ -18,9 +18,9 @@ public class TestDBConn {
 		{
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver"); // load the MS Access driver
 			
-			String url = "jdbc:ucanaccess://" + connectionObj.getPath(); // gets the connection instance
+			String url = "jdbc:ucanaccess://" + connectionObj.getConnection_string(); // gets the connection instance
 			
-			con = DriverManager.getConnection(url + connectionObj.getUserName() + connectionObj.getPassword());
+			con = DriverManager.getConnection(url + connectionObj.getUsername() + connectionObj.getPassword());
 		}
 		catch (Exception e)
 		{
