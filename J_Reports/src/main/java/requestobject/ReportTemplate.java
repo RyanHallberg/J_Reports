@@ -3,20 +3,20 @@ package requestobject;
 import utilities.QueryReformatter;
 
 public class ReportTemplate {
-	private Long datasourceID;
-	private String query;
+	private Long datasource_id;
+	private String query_string;
 	
-	public Long getDatasourceID() {
-		return datasourceID;
+	public Long getDatasource_id() {
+		return datasource_id;
 	}
-	public void setDatasourceID(Long datasourceID) {
-		this.datasourceID = datasourceID;
+	public void setDatasource_id(Long datasource_id) {
+		this.datasource_id = datasource_id;
 	}
-	public String getQuery() {
-		return query;
+	public String getQuery_string() {
+		return query_string;
 	}
-	public void setQuery(String query) {
-		this.query = QueryReformatter.reformat(query);
+	public void setQuery_string(String query_string) {
+		this.query_string = QueryReformatter.reformat(query_string);
 	}
 	
 	

@@ -37,7 +37,7 @@ public class TestQueryEndpoint {
 				.createQuery(
 						"SELECT DISTINCT d FROM Datasource d WHERE d.id = :entityId ORDER BY d.id",
 						Datasource.class);
-		findByIdQuery.setParameter("entityId", reportTemplate.getDatasourceID());
+		findByIdQuery.setParameter("entityId", reportTemplate.getDatasource_id());
 		Datasource entity;
 		try {
 			entity = findByIdQuery.getSingleResult();
@@ -69,7 +69,7 @@ public class TestQueryEndpoint {
 		{
 			Statement st = con.createStatement();
 			// check if query was valid
-			ResultSet rs = st.executeQuery(reportTemplate.getQuery());
+			ResultSet rs = st.executeQuery(reportTemplate.getQuery_string());
 			
 			master = ResultSetConverter.convert(rs);
 	

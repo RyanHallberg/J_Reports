@@ -22,10 +22,10 @@ public class ResultSetConverter {
             JSONObject obj2 = new JSONObject();
             String colName = rsmd.getColumnName(i);
             String colType = rsmd.getColumnTypeName(i);
-            obj2.put("colNum", i);
+            //obj2.put("colNum", i);
             obj2.put("colName", colName);
             obj2.put("colType", colType);
-            obj2.put("colMod", false);
+            //obj2.put("colMod", false);
             obj2.put("colAlias","null");
             resultMD.put(obj2);
         }
