@@ -39,7 +39,7 @@ public class ReportEndpoint {
 		em.persist(entity);
 		return Response.created(
 				UriBuilder.fromResource(ReportEndpoint.class)
-						.path(String.valueOf(entity.getId())).build()).build();
+						.path(String.valueOf(entity.getReport_id())).build()).build();
 	}
 
 	@DELETE
@@ -59,7 +59,7 @@ public class ReportEndpoint {
 	public Response findById(@PathParam("id") Long id) {
 		TypedQuery<Report> findByIdQuery = em
 				.createQuery(
-						"SELECT DISTINCT r FROM Report r WHERE r.id = :entityId ORDER BY r.id",
+						"SELECT DISTINCT r FROM Report r WHERE r.report_id = :entityId ORDER BY r.report_id",
 						Report.class);
 		findByIdQuery.setParameter("entityId", id);
 		Report entity;
@@ -80,7 +80,7 @@ public class ReportEndpoint {
 			@QueryParam("start") Integer startPosition,
 			@QueryParam("max") Integer maxResult) {
 		TypedQuery<Report> findAllQuery = em.createQuery(
-				"SELECT DISTINCT r FROM Report r ORDER BY r.id",
+				"SELECT DISTINCT r FROM Report r ORDER BY r.report_id",
 				Report.class);
 		if (startPosition != null) {
 			findAllQuery.setFirstResult(startPosition);
@@ -102,7 +102,7 @@ public class ReportEndpoint {
 		if (id == null) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
-		if (!id.equals(entity.getId())) {
+		if (!id.equals(entity.getReport_id())) {
 			return Response.status(Status.CONFLICT).entity(entity).build();
 		}
 		if (em.find(Report.class, id) == null) {

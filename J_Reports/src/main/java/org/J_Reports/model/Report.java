@@ -27,7 +27,7 @@ public class Report implements Serializable {
 	@Column(name = "Query_original")
 	private String query_string;
 
-	@Column(name = "Query_reformated")
+	@Column(name = "Query_reformatted")
 	private String reformattedQuery;
 
 	@Column(name = "Description")
@@ -41,20 +41,20 @@ public class Report implements Serializable {
 	private ResultMD resultMD;
 	
 
+	public Long getReport_id() {
+		return report_id;
+	}
+
+	public void setReport_id(Long report_id) {
+		this.report_id = report_id;
+	}
+
 	public ResultMD getResultMD() {
 		return resultMD;
 	}
 
 	public void setResultMD(ResultMD resultMD) {
 		this.resultMD = resultMD;
-	}
-
-	public Long getId() {
-		return report_id;
-	}
-
-	public void setId(Long id) {
-		this.report_id = id;
 	}
 
 	@Override
