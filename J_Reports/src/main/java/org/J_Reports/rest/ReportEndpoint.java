@@ -41,17 +41,29 @@ public class ReportEndpoint {
 				UriBuilder.fromResource(ReportEndpoint.class)
 						.path(String.valueOf(entity.getReport_id())).build()).build();
 	}
-
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
+	@Produces("application/json")
 	public Response deleteById(@PathParam("id") Long id) {
 		Report entity = em.find(Report.class, id);
+		
 		if (entity == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		em.remove(entity);
 		return Response.noContent().build();
 	}
+//	@DELETE
+//	@Path("/{id:[0-9][0-9]*}")
+//	public Response deleteById(@PathParam("id") Long id) {
+//		Report entity = em.find(Report.class, id);
+//		if (entity == null) {
+//			return Response.status(Status.NOT_FOUND).build();
+//		}
+//		em.remove(entity);
+//		
+//		return Response.noContent().build();
+//	}
 
 	@GET
 	@Path("/{id:[0-9][0-9]*}")

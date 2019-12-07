@@ -33,7 +33,7 @@ public class UserLoginEndpoint {
    public Response loginUser(UserLoginTemplate loginTemplate) {
       // get the data source
       TypedQuery<User> findByUsername = em
-    		  .createQuery("SELECT u FROM User u WHERE u.userName = :entityUsername",
+    		  .createQuery("SELECT u FROM User u WHERE u.username = :entityUsername",
     				  User.class);
       findByUsername.setParameter("entityUsername", loginTemplate.getUsername());
       User entity;
@@ -61,8 +61,8 @@ public class UserLoginEndpoint {
          
          // create JSON body
          JSONObject loginResponse = new JSONObject();
-         loginResponse.put("userID", entity.getId());
-         loginResponse.put("userType", entity.getUser_type_id());
+         loginResponse.put("id", entity.getId());
+         loginResponse.put("user_type_id", entity.getUser_type_id());
 
          // return 200
          return Response.ok(loginResponse.toString()).build();

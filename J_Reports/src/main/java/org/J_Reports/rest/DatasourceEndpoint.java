@@ -41,9 +41,10 @@ public class DatasourceEndpoint {
 
       if(good){
         em.persist(entity);
-		return Response.created(
-				UriBuilder.fromResource(DatasourceEndpoint.class)
-                  .path(String.valueOf(entity.getId())).build()).build();
+        return Response.ok(entity).build();
+//		return Response.created(
+//				UriBuilder.fromResource(DatasourceEndpoint.class)
+//                  .path(String.valueOf(entity.getId())).build()).build();
       }else{
          return Response.status(Status.NOT_FOUND).build();
       }
