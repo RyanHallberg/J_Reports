@@ -4,15 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-
 
 public class ReportMetadata implements Serializable {	
-
+   
 	private static final long serialVersionUID = 1L;
-	private String title;
+	//private String title;
 	private List<ColumnMetadata> columnMetadata = new ArrayList<>();
-	private int numColumns;
+	//private int numColumns;
 	
 	public void addColumn(ColumnMetadata columnMetadata) {
 		this.columnMetadata.add(columnMetadata);
@@ -22,22 +20,22 @@ public class ReportMetadata implements Serializable {
 		return this.columnMetadata.get(index);
 	}
 	
-	public String getTitle() {
+/* 	public String getTitle() {
 		return title;
 	}
 	public void setTitle(String title) {
 		this.title = title;
-	}
+	} */
 	public List<ColumnMetadata> getColumnMetadata() {
 		return columnMetadata;
 	}
 	public void setColumnMetadata(List<ColumnMetadata> columnMetadata) {
 		this.columnMetadata = columnMetadata;
 	}
-	public int getNumColumns() {
+/* 	public int getNumColumns() {
 		return numColumns;
 	}
 	public void setNumColumns(int numColumns) {
 		this.numColumns = numColumns;
-	}
+	} */
 }

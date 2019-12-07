@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="JReports">
+    <output-path>$PROJECT_DIR$/out/artifacts/JReports</output-path>
+    <root id="root" />
+  </artifact>
+</component>

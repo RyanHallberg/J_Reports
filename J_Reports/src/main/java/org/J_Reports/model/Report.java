@@ -1,12 +1,23 @@
 package org.J_Reports.model;
 
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Table;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import responseobject.ColumnMetadata;
+import responseobject.ReportMetadata;;
+
 
 @Entity
 @Table(name = "report")
@@ -18,20 +29,26 @@ public class Report implements Serializable {
 	private Long id;
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "Title")
+	@Column(length = 75, name = "Title")
 	private String title;
 
-	@Column(name = "Query_original")
-	private String originalQuery;
+	@Column(length = 250, name = "Query", nullable = false)
+	private String query;
 
-	@Column(name = "Query_reformated")
-	private String reformattedQuery;
-
-	@Column(name = "Description")
+	@Column(length = 250, name = "Description")
 	private String description;
 
-	@Column(name = "connection_ID")
+	@Column(name = "connection_ID", nullable = false)
 	private int datasourceID;
+	
+  /*  @Lob
+   @Column(name = "Metadata")
+   private List<JSONObject> resultMD;
+   //private ReportMetadata resultMD; */
+
+   
+   
+   
 
 	public Long getId() {
 		return id;
@@ -74,22 +91,21 @@ public class Report implements Serializable {
 		this.title = title;
 	}
 
-	public String getOriginalQuery() {
-		return originalQuery;
+	public String getQuery() {
+		return query;
 	}
 
-	public void setOriginalQuery(String originalQuery) {
-		this.originalQuery = originalQuery;
+	public void setQuery(String query) {
+		this.query = query;
 	}
 
-	public String getReformattedQuery() {
-		return reformattedQuery;
+/* 	public List<JSONObject> getResultMD() {
+		return resultMD;
 	}
 
-	public void setReformattedQuery(String reformattedQuery) {
-		// use the formatted query algorithm here
-		this.reformattedQuery = reformattedQuery;
-	}
+	public void setResultMD(List<JSONObject> arr) {
+		this.resultMD = new ArrayList<>();
+	} */
 
 	public String getDescription() {
 		return description;
@@ -112,13 +128,32 @@ public class Report implements Serializable {
 		String result = getClass().getSimpleName() + " ";
 		if (title != null && !title.trim().isEmpty())
 			result += "title: " + title;
-		if (originalQuery != null && !originalQuery.trim().isEmpty())
-			result += ", originalQuery: " + originalQuery;
-		if (reformattedQuery != null && !reformattedQuery.trim().isEmpty())
-			result += ", reformattedQuery: " + reformattedQuery;
+		if (query != null && !query.trim().isEmpty())
+			result += ", originalQuery: " + query;
 		if (description != null && !description.trim().isEmpty())
 			result += ", description: " + description;
 		result += ", datasourceID: " + datasourceID;
 		return result;
 	}
+
+   public Report() {
+      this.id = 0L;
+      this.title = "";
+      this.query = "";
+      this.description = "";
+      this.datasourceID = 0;
+   
+   }
+
+   public Report(String title, String query, String description, int datasourceID /*,List<JSONObject> resultMD*/) {
+    
+      this.title = title;
+      this.query = query;
+      this.description = description;
+      this.datasourceID = datasourceID;
+      //this.resultMD = new ArrayList<JSONObject> ();
+   }
+
+
+
 }

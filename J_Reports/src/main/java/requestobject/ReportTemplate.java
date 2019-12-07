@@ -19,5 +19,4 @@ public class ReportTemplate {
 		this.query = QueryReformatter.reformat(query);
 	}
 	
-	
 }

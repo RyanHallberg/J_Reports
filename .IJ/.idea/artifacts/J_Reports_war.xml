@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="J_Reports:war">
+    <output-path>$PROJECT_DIR$/../J_Reports/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>J_Reports</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="J_Reports.war">
+      <element id="artifact" artifact-name="J_Reports:war exploded" />
+    </root>
+  </artifact>
+</component>
