@@ -1,11 +1,18 @@
 package org.J_Reports.model;
 
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Table;
 
 import utilities.PasswordHasher;
@@ -38,8 +45,35 @@ public class User implements Serializable {
 	@Column(name = "usertype_ID")
 	private int user_type_id;
 	
+//	@OneToMany
+//	@JoinTable (
+//		name = "usergroup",
+//		joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "ID")},
+//		inverseJoinColumns = {@JoinColumn(name = "usergroup_id", referencedColumnName = "ID", unique = true)}
+//	)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	//@JoinColumn(name = "user_id")
+	private List<UserGroup> user_groups = new ArrayList<>();
+	
 
-	@Column
+	public void addUser_groups(UserGroup userGroup) {
+		user_groups.add(userGroup);
+		userGroup.setUser(this);
+	}
+	
+	public void removeUser_groups(UserGroup userGroup) {
+		user_groups.remove(userGroup);
+		userGroup.setUser(null);
+	}
+	
+	public List<UserGroup> getUser_groups() {
+		return user_groups;
+	}
+
+	public void setUser_groups(List<UserGroup> user_groups) {
+		this.user_groups = user_groups;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -47,7 +81,7 @@ public class User implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {

@@ -38,7 +38,7 @@ public class UserEndpoint {
 	@POST
 	@Consumes("application/json")
 	public Response create(User entity) {
-		em.persist(entity);
+		em.merge(entity);
 		return Response.created(
 				UriBuilder.fromResource(UserEndpoint.class)
 						.path(String.valueOf(entity.getId())).build()).build();

@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Table;
 
 import responseobject.ResultMD;
@@ -41,13 +44,6 @@ public class Report implements Serializable {
 	private ResultMD resultMD;
 	
 
-	public Long getReport_id() {
-		return report_id;
-	}
-
-	public void setReport_id(Long report_id) {
-		this.report_id = report_id;
-	}
 
 	public ResultMD getResultMD() {
 		return resultMD;
@@ -56,6 +52,15 @@ public class Report implements Serializable {
 	public void setResultMD(ResultMD resultMD) {
 		this.resultMD = resultMD;
 	}
+
+	public Long getReport_id() {
+		return report_id;
+	}
+
+	public void setReport_id(Long report_id) {
+		this.report_id = report_id;
+	}
+
 
 	@Override
 	public boolean equals(Object obj) {
