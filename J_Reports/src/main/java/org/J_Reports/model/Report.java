@@ -30,8 +30,8 @@ public class Report implements Serializable {
 	@Column(name = "Query_original")
 	private String query_string;
 
-	@Column(name = "Query_reformatted")
-	private String reformattedQuery;
+//	@Column(name = "Query_reformatted")
+//	private String reformattedQuery;
 
 	@Column(name = "Description")
 	private String report_desc;
@@ -103,14 +103,14 @@ public class Report implements Serializable {
 		this.query_string = originalQuery;
 	}
 
-	public String getReformattedQuery() {
-		return reformattedQuery;
-	}
-
-	public void setReformattedQuery(String reformattedQuery) {
-		// use the formatted query algorithm here
-		this.reformattedQuery = reformattedQuery;
-	}
+//	public String getReformattedQuery() {
+//		return reformattedQuery;
+//	}
+//
+//	public void setReformattedQuery(String reformattedQuery) {
+//		// use the formatted query algorithm here
+//		this.reformattedQuery = reformattedQuery;
+//	}
 
 	public String getReport_desc() {
 		return report_desc;
@@ -135,8 +135,8 @@ public class Report implements Serializable {
 			result += "title: " + report_title;
 		if (query_string != null && !query_string.trim().isEmpty())
 			result += ", originalQuery: " + query_string;
-		if (reformattedQuery != null && !reformattedQuery.trim().isEmpty())
-			result += ", reformattedQuery: " + reformattedQuery;
+//		if (reformattedQuery != null && !reformattedQuery.trim().isEmpty())
+//			result += ", reformattedQuery: " + reformattedQuery;
 		if (report_desc != null && !report_desc.trim().isEmpty())
 			result += ", description: " + report_desc;
 		result += ", datasourceID: " + datasource_id;

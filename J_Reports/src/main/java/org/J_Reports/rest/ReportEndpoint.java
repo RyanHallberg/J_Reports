@@ -42,15 +42,22 @@ public class ReportEndpoint {
 						.path(String.valueOf(entity.getReport_id())).build()).build();
 	}
 	@DELETE
-	@Path("/{id:[0-9][0-9]*}")
+	@Path("/{report_id:[0-9][0-9]*}")
 	@Produces("application/json")
-	public Response deleteById(@PathParam("id") Long id) {
-		Report entity = em.find(Report.class, id);
+	public Response deleteById(@PathParam("report_id") Long report_id) {
+		Report entity = em.find(Report.class, report_id);
 		
 		if (entity == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		em.remove(entity);
+		em.flush();
+//		TypedQuery<Report> removeByIdQuery = em
+//				.createQuery(
+//						"DELETE r FROM Report r WHERE r.report_id = :entityId",
+//						Report.class);
+//		removeByIdQuery.setParameter("entityId", report_id).executeUpdate();
+		//em.remove(entity);
 		return Response.noContent().build();
 	}
 //	@DELETE
@@ -107,6 +114,7 @@ public class ReportEndpoint {
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes("application/json")
+	@Produces("application/json")
 	public Response update(@PathParam("id") Long id, Report entity) {
 		if (entity == null) {
 			return Response.status(Status.BAD_REQUEST).build();
@@ -122,11 +130,12 @@ public class ReportEndpoint {
 		}
 		try {
 			entity = em.merge(entity);
+			em.flush();
 		} catch (OptimisticLockException e) {
 			return Response.status(Response.Status.CONFLICT)
 					.entity(e.getEntity()).build();
 		}
 
-		return Response.noContent().build();
+		return Response.ok(entity).build();
 	}
 }

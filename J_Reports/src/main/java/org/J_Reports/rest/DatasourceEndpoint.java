@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -51,6 +52,7 @@ public class DatasourceEndpoint {
 	}
 
 	@DELETE
+	@Transactional
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") Long id) {
 		Datasource entity = em.find(Datasource.class, id);
@@ -58,7 +60,8 @@ public class DatasourceEndpoint {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		em.remove(entity);
-		return Response.noContent().build();
+		em.flush();
+		return Response.ok(entity).build();
 	}
 
 	@GET
@@ -117,11 +120,12 @@ public class DatasourceEndpoint {
 		}
 		try {
 			entity = em.merge(entity);
+			em.flush();
 		} catch (OptimisticLockException e) {
 			return Response.status(Response.Status.CONFLICT)
 					.entity(e.getEntity()).build();
 		}
 
-		return Response.noContent().build();
+		return Response.ok(entity).build();
 	}
 }

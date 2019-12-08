@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import utilities.PasswordHasher;
 
@@ -51,27 +52,28 @@ public class User implements Serializable {
 //		joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "ID")},
 //		inverseJoinColumns = {@JoinColumn(name = "usergroup_id", referencedColumnName = "ID", unique = true)}
 //	)
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	//@JoinColumn(name = "user_id")
-	private List<UserGroup> user_groups = new ArrayList<>();
+//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//	//@JoinColumn(name = "user_id")
+	@Transient
+	private List<UserGroup> groups = new ArrayList<>();
 	
 
 	public void addUser_groups(UserGroup userGroup) {
-		user_groups.add(userGroup);
-		userGroup.setUser(this);
+		groups.add(userGroup);
+		//userGroup.setUser(this);
 	}
 	
 	public void removeUser_groups(UserGroup userGroup) {
-		user_groups.remove(userGroup);
-		userGroup.setUser(null);
+		groups.remove(userGroup);
+		//userGroup.setUser(null);
 	}
 	
 	public List<UserGroup> getUser_groups() {
-		return user_groups;
+		return groups;
 	}
 
 	public void setUser_groups(List<UserGroup> user_groups) {
-		this.user_groups = user_groups;
+		this.groups = user_groups;
 	}
 
 	public Long getId() {

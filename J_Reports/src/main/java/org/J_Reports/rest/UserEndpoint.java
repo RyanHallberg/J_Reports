@@ -98,6 +98,7 @@ public class UserEndpoint {
 		List<UserResponse> userResponse = new ArrayList<UserResponse>();
 		for (User user : results) {
 			userResponse.add(new UserResponse(user));
+			
 		}
 		
 		return userResponse;
@@ -107,26 +108,32 @@ public class UserEndpoint {
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes("application/json")
+	@Produces("application/json")
 	public Response update(@PathParam("id") Long id, User entity) {
-		if (entity == null) {
-			return Response.status(Status.BAD_REQUEST).build();
-		}
-		if (id == null) {
-			return Response.status(Status.BAD_REQUEST).build();
-		}
-		if (!id.equals(entity.getId())) {
-			return Response.status(Status.CONFLICT).entity(entity).build();
-		}
-		if (em.find(User.class, id) == null) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
+		
+		User oldUser = em.find(User.class, id);
+		em.detach(oldUser);
+		oldUser.setUser_type_id(entity.getUser_type_id());
+//		if (entity == null) {
+//			return Response.status(Status.BAD_REQUEST).build();
+//		}
+//		if (id == null) {
+//			return Response.status(Status.BAD_REQUEST).build();
+//		}
+//		if (!id.equals(entity.getId())) {
+//			return Response.status(Status.CONFLICT).entity(entity).build();
+//		}
+//		if (em.find(User.class, id) == null) {
+//			return Response.status(Status.NOT_FOUND).build();
+//		}
 		try {
-			entity = em.merge(entity);
+			entity = em.merge(oldUser);
+			em.flush();
 		} catch (OptimisticLockException e) {
 			return Response.status(Response.Status.CONFLICT)
 					.entity(e.getEntity()).build();
 		}
-
-		return Response.noContent().build();
+		UserResponse userResponse = new UserResponse(oldUser);
+		return Response.ok(userResponse).build();
 	}
 }
