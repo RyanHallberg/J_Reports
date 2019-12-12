@@ -40,8 +40,8 @@ public class User implements Serializable {
 	@Column(name = "Password_salt")
 	private String passwordSalt;
 
-	@Column(name = "Email")
-	private String email;
+//	@Column(name = "Email")
+//	private String email;
 
 	@Column(name = "usertype_ID")
 	private int user_type_id;
@@ -139,13 +139,13 @@ public class User implements Serializable {
 	  this.passwordSalt = passwordSalt;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
+//	public String getEmail() {
+//		return email;
+//	}
+//
+//	public void setEmail(String email) {
+//		this.email = email;
+//	}
 
 	@Override
 	public String toString() {
@@ -154,8 +154,8 @@ public class User implements Serializable {
 			result += ", password: " + password;
 		if (passwordSalt != null && !passwordSalt.trim().isEmpty())
 			result += ", passwordSalt: " + passwordSalt;
-		if (email != null && !email.trim().isEmpty())
-			result += ", email: " + email;
+//		if (email != null && !email.trim().isEmpty())
+//			result += ", email: " + email;
 		return result;
 	}
 

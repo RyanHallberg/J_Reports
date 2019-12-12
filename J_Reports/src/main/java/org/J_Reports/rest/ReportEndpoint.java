@@ -58,7 +58,7 @@ public class ReportEndpoint {
 //						Report.class);
 //		removeByIdQuery.setParameter("entityId", report_id).executeUpdate();
 		//em.remove(entity);
-		return Response.noContent().build();
+		return Response.ok(entity).build();
 	}
 //	@DELETE
 //	@Path("/{id:[0-9][0-9]*}")
