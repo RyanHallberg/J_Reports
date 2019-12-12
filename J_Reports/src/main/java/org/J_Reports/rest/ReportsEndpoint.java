@@ -1,8 +1,15 @@
 package org.J_Reports.rest;
 
+import java.io.StringReader;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
@@ -14,13 +21,16 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+//import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 import org.J_Reports.model.Reports;
+import javax.websocket.server.PathParam;
+
+import utilities.AppDBConnection;
 
 /**
  * 
@@ -29,9 +39,35 @@ import org.J_Reports.model.Reports;
 @Path("/reports")
 public class ReportsEndpoint {
 	@PersistenceContext(unitName = "J_Reports-persistence-unit")
-	private EntityManager em;
+   private EntityManager em;
+   
+   @POST
+	@Consumes("application/json")
+	public Response create(@PathParam("input") String input) {
+      JsonReader reader = Json.createReader(new StringReader(input));
+      JsonObject reportsObj = reader.readObject();
+      reader.close();
 
-	@POST
+      int reportID = reportsObj.getInt("reportID");
+      int usergroupID = reportsObj.getInt("userGroupID");
+      
+      Connection con = AppDBConnection.getConnection();
+      Statement stmt = null;
+
+      String query = "INSERT INTO reports values (" +reportID+", "+ usergroupID + ");";
+      
+      try{
+         stmt = con.createStatement();
+         stmt.executeUpdate(query);
+         return Response.ok().build();
+      }catch(SQLException se){
+         //Handle errors for JDBC
+         se.printStackTrace();
+         return Response.status(Status.BAD_REQUEST).build();
+      }
+   }
+
+/* 	@POST
 	@Consumes("application/json")
 	public Response create(Reports entity) {
 		em.persist(entity);
@@ -113,5 +149,5 @@ public class ReportsEndpoint {
 		}
 
 		return Response.noContent().build();
-	}
+	} */
 }

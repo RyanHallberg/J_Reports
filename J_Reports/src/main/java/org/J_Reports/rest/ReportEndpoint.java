@@ -1,61 +1,219 @@
 package org.J_Reports.rest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.Stateless;
-import javax.json.JsonObject;
+import javax.json.Json;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceContext;
-import javax.print.attribute.standard.Media;
-import javax.websocket.server.PathParam;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.core.MediaType;
+
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 import javax.ws.rs.core.UriBuilder;
+import javax.json.JsonReader;
+import javax.json.JsonObject;
+import javax.json.JsonArray;
+import javax.json.JsonValue;
+import javax.websocket.server.PathParam;
 
 import org.J_Reports.model.Report;
-import org.json.JSONArray;
+import org.J_Reports.model.UserGroup;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
-import java.util.*;
+import responseobject.ColumnMetadata;
+import responseobject.ReportMetadata;
 
+import utilities.AppDBConnection;
+
+import java.io.StringReader;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+/**
+ * 
+ */
 @Stateless
-@Path("/save-report")
+@Path("/")
 public class ReportEndpoint {
-   @PersistenceContext(unitName = "J_Reports-persistence-unit")
-   private EntityManager em;
+	@PersistenceContext(unitName = "J_Reports-persistence-unit")
+	private EntityManager em;
 
-   @POST
-   @Consumes(MediaType.APPLICATION_JSON)
-   public Response readJSON(@PathParam("title") String key,
-                            @PathParam("description") String description,
-                            @PathParam("query") String query,
-                            @PathParam("datasourceID") int datasourceID/*,               
-                            @PathParam("resultMD") List<JSONObject> resultMD
-                                                            */ ) {
 
-      // Report report = new Report(title, description, query, datasourceID,
-      // resultMD);
-     /*  JSONObject jsonObject = new JSONObject(key);
-      List<String> list = new ArrayList<>();
-      JSONArray ja = jsonObject.getJSONArray("resultMD");
+    @POST
+	@Consumes("application/json")
+	@Produces("application/json")
+	@Path("/create")
+	public Response createReport(@PathParam("data") String input) {
+      JsonReader reader = Json.createReader(new StringReader(input));
+      JsonObject reportObj = reader.readObject();
+      reader.close();
 
-      String alias = "";
-      //JSONArray ja = key.getJSONArray("data\\resultMD");
-      // JSONTokener jt = new JSONTokener();
-      for (int i = 0; i < ja.length(); i++) {
+      List<ColumnMetadata> columnMetadata = new ArrayList<>();
+      List<Integer> groupList = new ArrayList<>();
+      
+      JsonObject rsmdObj = reportObj.getJsonObject("resultMD");
+      JsonArray cmd = rsmdObj.getJsonArray("columnMetadata");
+      
+      for(int i = 0; i < cmd.size(); i++){
+         String colName, colType, colAlias;
+         JsonObject temp = cmd.getJsonObject(i);
+         colName = temp.getString("colName");
+         colType = temp.getString("colType");
+         colAlias = temp.getString("colAlias");
+         ColumnMetadata tempCMD = new ColumnMetadata(colName, colType, colAlias);
+         columnMetadata.add(tempCMD);
+      }
+      JsonArray groups = reportObj.getJsonArray("groups");
+      for(JsonValue jsonVal : groups){
+            groupList.add(Integer.valueOf(jsonVal.toString()));
+      }
+//ResultMD
+      ReportMetadata resultMD = new ReportMetadata(columnMetadata);
+      
+      Report repObj = new Report(reportObj.getString("report_title"), reportObj.getString("report_desc"), reportObj.getString("query_string"), reportObj.getInt("datasource_id"), resultMD);
+   
 
-         JSONObject jo = ja.getJSONObject(i);
-         
-         alias += jo.getString("colAlias");
-      } */
+      Connection con = AppDBConnection.getConnection();
+      PreparedStatement ps = null;
+      PreparedStatement ps2 = null;
+      Statement stmt = null;
+      ResultSet rs = null;
+      int id = 0;
 
-      Report reportDetails = new Report(key, description, description, datasourceID);
+      String insert1 = "INSERT INTO report (Title, Query, Description, Metadata, connection_ID)values ('" +
+      repObj.getReport_title()+"', '"+ repObj.getQuery_string() +"', '"+ repObj.getReport_desc()+ "', '"+ repObj.getResultMD() + "', " + repObj.getDatasource_id() + ");";
+      String insert2 = "INSERT INTO reports (report_ID, usergroup_ID) values (?,?)";
 
-      return Response.ok(reportDetails).build();
+      try{
+         ps = con.prepareStatement (insert1, Statement.RETURN_GENERATED_KEYS);
+         ps.executeUpdate();
+         rs = ps.getGeneratedKeys();
+         if(rs != null && rs.next()){
+            id = rs.getInt(1);
+         }
+         ps2 = con.prepareStatement(insert2);
+         //need to set up a loop body to iterate through all user groups given
+         for (int i = 0; i < groupList.size(); i++) {
+             ps2.setInt(1, id);
+             ps2.setInt(2, groupList.get(i));
+             ps2.execute();
+          }
+         JSONObject successObj = new JSONObject();
+         successObj.put("result", "success");
+         return Response.ok(successObj.toString()).build();
+      }catch(SQLException e){
+         e.printStackTrace();
+         return Response.status(Status.BAD_REQUEST).build();
+      }
+      
+      
+      //em.persist(repObj);
 
-   }
-   // https://www.programcreek.com/java-api-examples/?class=org.json.JSONObject&method=getString
 
+		//return Response.created(UriBuilder.fromResource(ReportEndpoint.class).path(String.valueOf(repObj.getId())).build()).build();
+	}
+
+/* 	@POST
+	@Consumes("application/json")
+	@Produces("application/json")
+	@Path("/create")
+	public Response create(Report entity) {
+		em.persist(entity);
+		
+		return Response.created(
+				UriBuilder.fromResource(ReportEndpoint.class)
+						.path(String.valueOf(entity.getId())).build()).build();
+	} 
+
+	@DELETE
+	@Path("/{id:[0-9][0-9]*}")
+	public Response deleteById(@PathParam("id") Long id) {
+		Report entity = em.find(Report.class, id);
+		if (entity == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		em.remove(entity);
+		return Response.noContent().build();
+	}
+
+	@GET
+	@Path("/{id:[0-9][0-9]*}")
+	@Produces("application/json")
+	public Response findById(@PathParam("id") Long id) {
+		TypedQuery<Report> findByIdQuery = em
+				.createQuery(
+						"SELECT DISTINCT r FROM Report r WHERE r.id = :entityId ORDER BY r.id",
+						Report.class);
+		findByIdQuery.setParameter("entityId", id);
+		Report entity;
+		try {
+			entity = findByIdQuery.getSingleResult();
+		} catch (NoResultException nre) {
+			entity = null;
+		}
+		if (entity == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		return Response.ok(entity).build();
+	}
+
+	@GET
+	@Produces("application/json")
+	public List<Report> listAll(
+			@QueryParam("start") Integer startPosition,
+			@QueryParam("max") Integer maxResult) {
+		TypedQuery<Report> findAllQuery = em.createQuery(
+				"SELECT DISTINCT r FROM Report r ORDER BY r.id",
+				Report.class);
+		if (startPosition != null) {
+			findAllQuery.setFirstResult(startPosition);
+		}
+		if (maxResult != null) {
+			findAllQuery.setMaxResults(maxResult);
+		}
+		final List<Report> results = findAllQuery.getResultList();
+		return results;
+	}
+
+	@PUT
+	@Path("/{id:[0-9][0-9]*}")
+	@Consumes("application/json")
+	public Response update(@PathParam("id") Long id, Report entity) {
+		if (entity == null) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		if (id == null) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		if (!id.equals(entity.getId())) {
+			return Response.status(Status.CONFLICT).entity(entity).build();
+		}
+		if (em.find(Report.class, id) == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		try {
+			entity = em.merge(entity);
+		} catch (OptimisticLockException e) {
+			return Response.status(Response.Status.CONFLICT)
+					.entity(e.getEntity()).build();
+		}
+
+		return Response.noContent().build();
+	}*/
 }

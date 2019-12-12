@@ -12,7 +12,7 @@ public class AppDBConnection {
    public static Connection getConnection(){
 
       try {
-         Class.forName("com.mysql.jdbc.Driver");
+         Class.forName("com.mysql.cj.jdbc.Driver");
          final Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j_reports", user, password);
          return conn;
 

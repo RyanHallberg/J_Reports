@@ -1,11 +1,14 @@
 package org.J_Reports.model;
 
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.io.Serializable;
+import java.util.Set;
+
 
 @Entity
 public class UserGroup implements Serializable {
@@ -17,7 +20,7 @@ public class UserGroup implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "Name", nullable = false)
-	private String name;
+   private String name;
 
 	public Long getId() {
 		return id;
@@ -25,7 +28,14 @@ public class UserGroup implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+   }
+  
+   
+
+   public UserGroup() {
+		
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -67,4 +77,8 @@ public class UserGroup implements Serializable {
 			result += "name: " + name;
 		return result;
 	}
+
+   public UserGroup(Long id) {
+      this.id = id;
+   }
 }

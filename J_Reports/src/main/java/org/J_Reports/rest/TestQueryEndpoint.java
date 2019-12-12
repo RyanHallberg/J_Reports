@@ -37,7 +37,7 @@ public class TestQueryEndpoint {
 				.createQuery(
 						"SELECT DISTINCT d FROM Datasource d WHERE d.id = :entityId ORDER BY d.id",
 						Datasource.class);
-		findByIdQuery.setParameter("entityId", reportTemplate.getDatasourceID());
+		findByIdQuery.setParameter("entityId", reportTemplate.getDatasource_id());
 		Datasource entity;
 		try {
 			entity = findByIdQuery.getSingleResult();
@@ -53,9 +53,12 @@ public class TestQueryEndpoint {
 		{
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver"); // load the MS Access driver
 			
-			String url = "jdbc:ucanaccess://" + entity.getPath(); // gets the connection instance
-			
-			con = DriverManager.getConnection(url + entity.getUserName() + entity.getPassword());
+			String url = "jdbc:ucanaccess://" + entity.getConnection_string(); // gets the connection instance
+         
+         if(entity.getUsername()!= null && entity.getPassword() != null)
+         con = DriverManager.getConnection(url + entity.getUsername() + entity.getPassword());
+         else
+         con = DriverManager.getConnection(url);
 		}
 		catch (Exception e)
 		{
@@ -69,7 +72,7 @@ public class TestQueryEndpoint {
 		{
 			Statement st = con.createStatement();
 			// check if query was valid
-			ResultSet rs = st.executeQuery(reportTemplate.getQuery());
+			ResultSet rs = st.executeQuery(reportTemplate.getQuery_string());
 			
 			master = ResultSetConverter.convert(rs);
 	

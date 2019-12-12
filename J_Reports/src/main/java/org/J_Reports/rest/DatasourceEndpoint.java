@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 import org.J_Reports.model.Datasource;
+import org.json.JSONObject;
 
 import utilities.TestDBConn;
 
@@ -35,15 +36,17 @@ public class DatasourceEndpoint {
 
 	@POST
 	@Consumes("application/json")
+	@Produces("application/json")
 	public Response create(Datasource entity) {
       
       boolean good = TestDBConn.checkDBConnection(entity);
 
       if(good){
         em.persist(entity);
-		return Response.created(
-				UriBuilder.fromResource(DatasourceEndpoint.class)
-                  .path(String.valueOf(entity.getId())).build()).build();
+        return Response.ok(entity).build();
+//		return Response.created(
+//				UriBuilder.fromResource(DatasourceEndpoint.class)
+//                  .path(String.valueOf(entity.getId())).build()).build();
       }else{
          return Response.status(Status.NOT_FOUND).build();
       }
@@ -51,13 +54,16 @@ public class DatasourceEndpoint {
 
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
+	@Produces("application/json")
 	public Response deleteById(@PathParam("id") Long id) {
 		Datasource entity = em.find(Datasource.class, id);
 		if (entity == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		em.remove(entity);
-		return Response.noContent().build();
+      em.remove(entity);
+      em.flush();
+      
+		return Response.ok(entity).build();
 	}
 
 	@GET
@@ -77,7 +83,9 @@ public class DatasourceEndpoint {
 		}
 		if (entity == null) {
 			return Response.status(Status.NOT_FOUND).build();
-		}
+      }
+  
+
 		return Response.ok(entity).build();
 	}
 
@@ -100,7 +108,8 @@ public class DatasourceEndpoint {
 
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
-	@Consumes("application/json")
+   @Consumes("application/json")
+   @Produces("application/json")
 	public Response update(@PathParam("id") Long id, Datasource entity) {
 		if (entity == null) {
 			return Response.status(Status.BAD_REQUEST).build();
@@ -108,19 +117,20 @@ public class DatasourceEndpoint {
 		if (id == null) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
-		if (!id.equals(entity.getId())) {
-			return Response.status(Status.CONFLICT).entity(entity).build();
-		}
+//		if (!id.equals(entity.getId())) {
+//			return Response.status(Status.CONFLICT).entity(entity).build();
+//		}
 		if (em.find(Datasource.class, id) == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		try {
-			entity = em.merge(entity);
+         entity = em.merge(entity);
+         em.flush();
 		} catch (OptimisticLockException e) {
 			return Response.status(Response.Status.CONFLICT)
 					.entity(e.getEntity()).build();
-		}
-
-		return Response.noContent().build();
+      }
+     
+		return Response.ok(entity).build();
 	}
 }

@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 import org.J_Reports.model.UserGroup;
+import org.json.JSONObject;
 
 /**
  * 
@@ -33,22 +34,30 @@ public class UserGroupEndpoint {
 
 	@POST
 	@Consumes("application/json")
+	@Produces("application/json")
 	public Response create(UserGroup entity) {
 		em.persist(entity);
-		return Response.created(
-				UriBuilder.fromResource(UserGroupEndpoint.class)
-						.path(String.valueOf(entity.getId())).build()).build();
+		return Response.ok(entity).build();
+		/*
+		 * return Response.created( UriBuilder.fromResource(UserGroupEndpoint.class)
+		 * .path(String.valueOf(entity.getId())).build()).build();
+		 */
 	}
 
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
+	@Produces("application/json")
 	public Response deleteById(@PathParam("id") Long id) {
 		UserGroup entity = em.find(UserGroup.class, id);
 		if (entity == null) {
 			return Response.status(Status.NOT_FOUND).build();
-		}
-		em.remove(entity);
-		return Response.noContent().build();
+      }
+      
+      em.remove(entity);
+      em.flush();
+      JSONObject successObj = new JSONObject();
+      successObj.put("result", "deleted");
+      return Response.ok(successObj.toString()).build();
 	}
 
 	@GET
@@ -99,19 +108,20 @@ public class UserGroupEndpoint {
 		if (id == null) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
-		if (!id.equals(entity.getId())) {
-			return Response.status(Status.CONFLICT).entity(entity).build();
-		}
+//		if (!id.equals(entity.getId())) {
+//			return Response.status(Status.CONFLICT).entity(entity).build();
+//		}
 		if (em.find(UserGroup.class, id) == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		try {
 			entity = em.merge(entity);
+			 em.flush();
 		} catch (OptimisticLockException e) {
 			return Response.status(Response.Status.CONFLICT)
 					.entity(e.getEntity()).build();
 		}
 
-		return Response.noContent().build();
+		return Response.ok(entity).build();
 	}
 }

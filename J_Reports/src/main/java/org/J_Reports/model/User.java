@@ -24,7 +24,7 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "Username", nullable = false)
-	private String userName;
+	private String username;
 
 	@Column(name = "Password", nullable = false)
 	private String password;
@@ -32,11 +32,8 @@ public class User implements Serializable {
 	@Column(name = "Password_salt")
 	private String passwordSalt;
 
-	@Column(name = "Email")
-	private String email;
-
-	@Column(name = "usertype_ID")
-	private int userType;
+	@Column(name = "User_type_id")
+	private int user_type_id;
 
 	@Column
 	public Long getId() {
@@ -72,12 +69,12 @@ public class User implements Serializable {
 		return result;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String userName) {
+		this.username = userName;
 	}
 
 	public String getPassword() {
@@ -102,34 +99,24 @@ public class User implements Serializable {
 	  this.passwordSalt = passwordSalt;
 	}
 
-	public String getEmail() {
-		return email;
+	public int getUser_type_id() {
+		return user_type_id;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public int getUserType() {
-		return userType;
-	}
-
-	public void setUserType(int userType) {
-		this.userType = userType;
+	public void setUser_type_id(int userType) {
+		this.user_type_id = userType;
 	}
 
 	@Override
 	public String toString() {
 		String result = getClass().getSimpleName() + " ";
-		if (userName != null && !userName.trim().isEmpty())
-			result += "userName: " + userName;
+		if (username != null && !username.trim().isEmpty())
+			result += "userName: " + username;
 		if (password != null && !password.trim().isEmpty())
 			result += ", password: " + password;
 		if (passwordSalt != null && !passwordSalt.trim().isEmpty())
 			result += ", passwordSalt: " + passwordSalt;
-		if (email != null && !email.trim().isEmpty())
-			result += ", email: " + email;
-		result += ", userType: " + userType;
+		result += ", userType: " + user_type_id;
 		return result;
 	}
 	
